@@ -6,6 +6,7 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
+import { Link as RouteLink } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -26,7 +27,7 @@ function Copyright(props) {
   );
 }
 
- const theme = createTheme();
+const theme = createTheme();
 
 function SignIn() {
   const handleSubmit = (event) => {
@@ -57,14 +58,14 @@ function Signup() {
             Sign Up
           </Typography>
           <Box component="form"  noValidate sx={{ mt: 1 }}>
-          <TextField
+            <TextField
               margin="normal"
               required
               fullWidth
               id="First Name"
               label="First Name"
               name="First Name"
-               autoComplete="First Name"
+              autoComplete="First Name"
               autoFocus
             />
             <TextField
@@ -74,8 +75,7 @@ function Signup() {
               id="Username"
               label="Username"
               name="Username"
-               autoComplete="Username"
-              autoFocus
+              autoComplete="Username"
             />
             <TextField
               margin="normal"
@@ -100,16 +100,15 @@ function Signup() {
               Sign Up
             </Button>
             <Grid container>
-              {/* <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
+              <Grid container justifyContent="center">
+                <Grid item>
+                  <Link href="#" variant="body2">
+                    <RouteLink to="/signup" style={{color: '#1976d2' }}>
+                      {'Have an account? Log In'}
+                    </RouteLink>
+                  </Link>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid> */}
             </Grid>
           </Box>
         </Box>
@@ -120,4 +119,4 @@ function Signup() {
 }
 
 
-export default Signup
+export default Signup;
