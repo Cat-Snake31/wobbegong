@@ -45,6 +45,8 @@ module.exports = {
       publicPath: '/dist',
       directory: path.resolve(__dirname, 'dist')
     },
+    hot: true,
+    historyApiFallback: true,
     proxy: {
       '/recipes/*': {
         target: 'http://localhost:3000/',
