@@ -1,5 +1,10 @@
 //Import dependencies
-import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { changeTheme } from '../store/users-slice';
+import React, {useState} from 'react';
+
+import MenuDrawer from './MenuDrawer.jsx';
+//Import Components
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -7,14 +12,25 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AddRecipe from './AddRecipe.jsx';
 import IconButton from '@mui/material/IconButton';
 import Switch from '@mui/material/Switch';
-//Import Components
+import Button from '@mui/material/Button';
 
 //React Component
-const Header = ({colorMode}) => {
+const Header = () => {
+  const [drawerState, setDrawerState] = useState(false);
+  const dispatch = useDispatch();
+
+  const toggleDrawer = (open) => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+    setDrawerState(open);
+  };
+
   return (
     <AppBar position="static"
-      sx={{ position: 'fixed' }}
+      sx={{ position: 'fixed', zIndex: 10 }}
     >
+      <MenuDrawer {...{toggleDrawer, drawerState}}/>
       <Toolbar>
         <IconButton
           size="large"
@@ -22,6 +38,7 @@ const Header = ({colorMode}) => {
           color="inherit"
           aria-label="open drawer"
           sx={{ mr: 2 }}
+          onClick={toggleDrawer(true)}
         >
           <MenuIcon />
         </IconButton>
@@ -33,8 +50,10 @@ const Header = ({colorMode}) => {
         >
           WOBBEGONG
         </Typography>
-        <Switch onClick={colorMode.toggleColorMode}/>
         <AddRecipe/>
+        {/* <Switch onClick={colorMode.toggleColorMode}/> */}
+        <Switch onClick={() => dispatch(changeTheme())}/>
+        <Button color="inherit">Logout</Button>
       </Toolbar>
     </AppBar>
   );

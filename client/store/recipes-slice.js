@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-const axios = require('axios');
 
 const initialRecipesState = {
   recipes: [],
@@ -14,9 +13,11 @@ export const syncRecipes = createAsyncThunk(
   async () => {
     try {
       console.log('in the syncRecipes Thunk function');
-      const response = await axios.get('/recipes');
-      // console.log('Here is your data: ', response);
-      return response.data.reverse();
+      const responseJSON = await fetch('/recipes');
+      const response = await responseJSON.json();
+      
+      console.log('Here is your data: ', response);
+      return response.reverse();
     } catch (e) {
       console.log(e);
     }
@@ -29,7 +30,7 @@ export const editRecipe = createAsyncThunk(
     try {
       console.log('editBody',editBody);
       console.log('in the editRecipes Thunk function');
-      const editRecipe = fetch('/recipes', {
+      const editRecipe = await fetch('/recipes', {
         method: 'PUT',
         headers: {
           'Content-Type': 'Application/JSON',
@@ -48,12 +49,13 @@ export const deleteRecipe = createAsyncThunk(
   '/recipes/deleteRecipeStatus',
   async (id) => {
     try {
-      const deletedRecipe = fetch(`/recipes/${id}`, {
+      const deletedRecipe = await fetch(`/recipes/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'Application/JSON',
         },
       });
+      console.log(deletedRecipe);
       return deletedRecipe.status;
     } catch (e) {
       console.log(e);
@@ -65,13 +67,14 @@ export const addRecipe = createAsyncThunk(
   '/recipes/addRecipeStatus',
   async (body) => {
     try {
-      const addedRecipe = fetch('/recipes', {
+      const addedRecipe = await fetch('/recipes', {
         method: 'POST',
         headers: {
           'Content-Type': 'Application/JSON',
         },
         body: JSON.stringify(body),
       });
+      console.log('added recipe', addedRecipe);
       return addedRecipe;
     } catch (e) {
       console.log(e);

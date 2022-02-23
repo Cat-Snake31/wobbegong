@@ -21,7 +21,7 @@ import DoughnutChart from './ChartJS/PieChart.jsx';
 
 const RecipeCard = (props) => {
   const dispatch = useDispatch();
-  console.log('Here\'s the ingredient list: ', props.ingredientList);
+  // console.log('Here\'s the ingredient list: ', props.ingredientList);
 
   const [ isEditing, setIsEditing ] = useState(false);
   const [ editQuery, setQuery ] = useState(props.query);

@@ -1,5 +1,7 @@
 //import dependencies
 import React, {useState, useMemo} from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
 
 //import components
 import Header from './Components/Header.jsx';
@@ -9,15 +11,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const App = () => {
-  //Sets light or dark mode
-  const [mode, setMode] = useState('light');
-  const colorMode = useMemo(
-    () => ({
-      toggleColorMode: () => {
-        setMode(prevMode => prevMode === 'light' ? 'dark' : 'light');
-      },
-    }), [],
-  );
+  const mode = useSelector((state) => state.users.darkModePref);
 
   const theme = useMemo(
     () =>
@@ -32,7 +26,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Grid container direction='column'>
-        <Header {...{colorMode}}/>
+        <Header />
         <RecipeContainer />
       </Grid>
     </ThemeProvider>
