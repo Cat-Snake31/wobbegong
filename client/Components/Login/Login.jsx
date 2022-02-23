@@ -6,6 +6,7 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
+import { Link as RouteLink } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -17,7 +18,7 @@ function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
+      <Link color="inherit" href="https://www.youtube.com/watch?v=mbv2DhcKAh4">
       WWF: World Wobbegong Federation
       </Link>{' '}
       {new Date().getFullYear()}
@@ -26,7 +27,7 @@ function Copyright(props) {
   );
 }
 
- const theme = createTheme();
+const theme = createTheme();
 
 function SignIn() {
   const handleSubmit = (event) => {
@@ -64,7 +65,7 @@ function login() {
               id="Username"
               label="Username"
               name="Username"
-               autoComplete="Username"
+              autoComplete="Username"
               autoFocus
             />
             <TextField
@@ -89,15 +90,12 @@ function login() {
             >
               Sign In
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
+            <Grid container justifyContent="center">
               <Grid item>
                 <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  <RouteLink to="/signup" style={{color: '#1976d2' }}>
+                    {'Don\'t have an account? Sign Up'}
+                  </RouteLink>
                 </Link>
               </Grid>
             </Grid>
@@ -110,4 +108,5 @@ function login() {
 }
 
 
-export default login
+export default login;
+
