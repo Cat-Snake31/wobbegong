@@ -12,7 +12,6 @@ const userSchema = new Schema({
   password: {type: String, required: true},
   preferDarkMode: {type: Boolean},
   recipes : [{ type: Schema.Types.ObjectId, ref: 'recipe' }]
-  // recipes : [recipeSchema]
 });
 
 userSchema.pre('save', function(next) {
@@ -22,5 +21,9 @@ userSchema.pre('save', function(next) {
     .then(() => next())
     .catch(err => console.log(err));
 });
+
+userSchema.methods.comparePassword = function(plaintextPassword) {
+  return bcrypt.compare(plaintextPassword, this.password);
+};
 
 module.exports = mongoose.model('User', userSchema);
