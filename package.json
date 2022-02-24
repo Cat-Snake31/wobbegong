@@ -65,6 +65,7 @@
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
+    "express-session": "^1.17.2",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.4.0",
     "mongoose": "^6.2.3",

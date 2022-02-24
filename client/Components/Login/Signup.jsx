@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useEffect, useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -6,13 +6,16 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
-import { Link as RouteLink } from 'react-router-dom';
+import { Link as RouteLink, useNavigate } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { GoogleLogin } from 'react-google-login';
+import { useSelector, useDispatch } from 'react-redux';
+import { signupThunk } from '../../store/users-slice';
 
 function Copyright(props) {
   return (
@@ -29,18 +32,33 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-function SignIn() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
-}
+
+
 function Signup() {
+  const dispatch = useDispatch();
+  const {loggedIn, username} = useSelector((state) => state.users);
+
+  const [usernameText, setUsernameText] = useState('');
+  const [passwordText, setPasswordText] = useState('');
+  const [firstNameText, setFirstNameText] = useState('');
+
+  const navigate = useNavigate();
+  useEffect(()=>{
+    console.log('navigating!');
+    if(loggedIn) {
+      navigate('/home');
+    }
+  },[loggedIn]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    return dispatch(signupThunk({
+      firstName: firstNameText,
+      username: usernameText,
+      password: passwordText,
+      darkModePref: 'light',
+    }));
+  };
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -57,7 +75,9 @@ function Signup() {
           <Typography component="h1" variant="h5">
             Sign Up
           </Typography>
-          <Box component="form"  noValidate sx={{ mt: 1 }}>
+          <Box component="form"  noValidate sx={{ mt: 1 }}
+            onSubmit={handleSubmit}
+          >
             <TextField
               margin="normal"
               required
@@ -67,6 +87,7 @@ function Signup() {
               name="First Name"
               autoComplete="First Name"
               autoFocus
+              onChange={e=>setFirstNameText(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -76,6 +97,7 @@ function Signup() {
               label="Username"
               name="Username"
               autoComplete="Username"
+              onChange={e=>setUsernameText(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -86,6 +108,7 @@ function Signup() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={e=>setPasswordText(e.target.value)}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
