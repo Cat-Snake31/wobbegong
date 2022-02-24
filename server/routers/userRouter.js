@@ -7,7 +7,7 @@ const sessionController = require('../controllers/SessionController');
 const router = express.Router();
 
 //router.post
-router.post('/signup', userController.createUser, (req, res) => {
+router.post('/signup', userController.createUser, sessionController.startSession, (req, res) => {
   const { username, firstName, darkModePref } = res.locals.userData;
   const user = {
     loggedIn: true, 
