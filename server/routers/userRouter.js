@@ -12,13 +12,13 @@ router.post('/signup', userController.createUser, (req, res) => {
 
 //router/login/post
 router.post('/login', userController.verifyUser, (req, res) => {
-  const { username, firstName } = res.locals.userData;
+  const { username, firstName, darkModePref } = res.locals.userData;
   const user = {
-    loggedIn: false, 
+    loggedIn: true, 
     username: username,
     firstName: firstName,
-    darkModePref: 'light'
-  }
+    darkModePref: darkModePref
+  };
   return res.status(200).json(user);
 });
 

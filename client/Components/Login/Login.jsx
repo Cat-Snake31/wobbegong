@@ -15,7 +15,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { GoogleLogin } from 'react-google-login';
 import { useSelector, useDispatch } from 'react-redux';
-
+import { loginThunk } from '../../store/users-slice';
 
 function Copyright(props) {
   return (
@@ -36,44 +36,27 @@ const responseGoogle = (response) => {
 
 const theme = createTheme();
 
-// const darkTheme = createTheme({
-//   palette: {
-//     mode: 'dark',
-//   },
-// });
-
-// function SignIn() {
-//   const handleSubmit = (event) => {
-//     event.preventDefault();
-//     const data = new FormData(event.currentTarget);
-//     // eslint-disable-next-line no-console
-//     console.log({
-//       email: data.get('email'),
-//       password: data.get('password'),
-//     });
-//   };
-// }
 function login() {
   const dispatch = useDispatch();
   const {loggedIn, username} = useSelector((state) => state.users);
-
+  console.log(loggedIn, username);
   const [usernameText, setUsernameText] = useState('');
   const [passwordText, setPasswordText] = useState('');
 
   const navigate = useNavigate();
   useEffect(()=>{
+    console.log('navigating!');
     if(loggedIn) {
       navigate('/home');
     }
   },[loggedIn]);
 
   const handleSubmit = (e) => {
-    e.preventDefault;
-    dispatch(login({
+    e.preventDefault();
+    return dispatch(loginThunk({
       username: usernameText,
       password: passwordText
-    }))
-      .then();
+    }));
   };
   return (
     <ThemeProvider theme={theme}>

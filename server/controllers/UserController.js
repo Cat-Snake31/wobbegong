@@ -5,13 +5,13 @@ require('dotenv').config();
 const userController = {};
 
 userController.createUser = async (req, res, next) => {
-  const { firstName, username, password, preferDarkMode } = req.body;
+  const { firstName, username, password, darkModePref } = req.body;
   try {
     const newUser = await User.create({
       firstName: firstName,
       username: username,
       password: password,
-      preferDarkMode: preferDarkMode,
+      darkModePref: darkModePref,
     });
     res.locals.newUser = newUser;
     return next();
@@ -27,13 +27,15 @@ userController.createUser = async (req, res, next) => {
 
 userController.verifyUser = (req, res, next) => {
   const {username, password} = req.body;
+  console.log('in the verifyUser controller', req.body)
   User.findOne({username: username})
     .then((result) => {
       //take the firstName from the database result and pass it along in res.locals.userData
       // will need to pass down the username as well
       res.locals.userData = {
         username: username,
-        firstName: result.firstName
+        firstName: result.firstName,
+        darkModePref: result.darkModePref
       };
       return result.comparePassword(password);
     })
@@ -42,7 +44,7 @@ userController.verifyUser = (req, res, next) => {
         return next();
       } else {
         //need to add proper error handling for incorrect password matching
-        res.status(200).send('howdy');
+        return res.status(200).json({loggedIn: false});
       }
     })
     .catch(err => 
