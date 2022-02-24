@@ -13,7 +13,7 @@ userController.createUser = async (req, res, next) => {
       password: password,
       darkModePref: darkModePref,
     });
-    res.locals.newUser = newUser;
+    res.locals.userData = newUser;
     return next();
   }
   catch (err) {
@@ -27,11 +27,9 @@ userController.createUser = async (req, res, next) => {
 
 userController.verifyUser = (req, res, next) => {
   const {username, password} = req.body;
-  console.log('in the verifyUser controller', req.body)
+  console.log('in the verifyUser controller', req.body);
   User.findOne({username: username})
     .then((result) => {
-      //take the firstName from the database result and pass it along in res.locals.userData
-      // will need to pass down the username as well
       res.locals.userData = {
         username: username,
         firstName: result.firstName,

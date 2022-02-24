@@ -39,7 +39,7 @@ const theme = createTheme();
 function login() {
   const dispatch = useDispatch();
   const {loggedIn, username} = useSelector((state) => state.users);
-  console.log(loggedIn, username);
+  
   const [usernameText, setUsernameText] = useState('');
   const [passwordText, setPasswordText] = useState('');
 

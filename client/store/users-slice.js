@@ -9,7 +9,7 @@ const initialUserState = {
 };
 
 export const loginThunk = createAsyncThunk(
-  'users/getUserStatus',
+  'users/getLoginStatus',
   async (body) => {
     try {
       console.log('in the login Thunk function, body:', body);
@@ -29,6 +29,27 @@ export const loginThunk = createAsyncThunk(
   }
 );
 
+export const signupThunk = createAsyncThunk(
+  'users/getSignupStatus',
+  async (body) => {
+    try {
+      console.log('in the signup Thunk function, body:', body);
+      const responseJSON = await fetch('/user/signup',{
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      });
+      const response = await responseJSON.json();
+      console.log('signup data response: ', response);
+      return response;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: 'users',
   initialState: initialUserState,
@@ -40,15 +61,25 @@ const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(loginThunk.fulfilled, (state, action) => {
-      console.log('In builder login, loggedIn:', action.payload);
-      if(action.payload.loggedIn) {
-        state.loggedIn = action.payload.loggedIn;
-        state.username = action.payload.username;
-        state.firstName = action.payload.firstName;
-        state.darkModePref = action.payload.darkModePref;
-      }
-    });
+    builder
+      .addCase(loginThunk.fulfilled, (state, action) => {
+        console.log('In builder login, loggedIn:', action.payload);
+        if(action.payload.loggedIn) {
+          state.loggedIn = action.payload.loggedIn;
+          state.username = action.payload.username;
+          state.firstName = action.payload.firstName;
+          state.darkModePref = action.payload.darkModePref;
+        }
+      })
+      .addCase(signupThunk.fulfilled, (state, action) => {
+        console.log('In builder login, loggedIn:', action.payload);
+        if(action.payload.loggedIn) {
+          state.loggedIn = action.payload.loggedIn;
+          state.username = action.payload.username;
+          state.firstName = action.payload.firstName;
+          state.darkModePref = action.payload.darkModePref;
+        }
+      });
   },
 });
 
