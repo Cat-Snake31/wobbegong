@@ -17,7 +17,7 @@ const MenuDrawer = ({toggleDrawer, drawerState}) => {
     >
       <List>
         <ListItem button
-          onClick={() => navigate('/', {replace: true})}
+          onClick={() => navigate('/home', {replace: true})}
         >
           <ListItemIcon>
             <RestaurantIcon/>
