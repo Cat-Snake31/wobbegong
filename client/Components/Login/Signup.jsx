@@ -18,7 +18,7 @@ function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
+      <Link color="inherit" href="https://www.youtube.com/watch?v=mbv2DhcKAh4">
         WWF: World Wobbegong Federation
       </Link>{' '}
       {new Date().getFullYear()}
@@ -102,11 +102,9 @@ function Signup() {
             <Grid container>
               <Grid container justifyContent="center">
                 <Grid item>
-                  <Link href="#" variant="body2">
-                    <RouteLink to="/signup" style={{color: '#1976d2' }}>
-                      {'Have an account? Log In'}
-                    </RouteLink>
-                  </Link>
+                  <RouteLink to="/signup" style={{color: '#1976d2' }}>
+                    {'Have an account? Log In'}
+                  </RouteLink>
                 </Grid>
               </Grid>
             </Grid>

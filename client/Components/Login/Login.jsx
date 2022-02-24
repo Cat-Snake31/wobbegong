@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState, useEffect} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -6,13 +6,16 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
-import { Link as RouteLink } from 'react-router-dom';
+import { Link as RouteLink, useNavigate } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { GoogleLogin } from 'react-google-login';
+import { useSelector, useDispatch } from 'react-redux';
+
 
 function Copyright(props) {
   return (
@@ -27,20 +30,51 @@ function Copyright(props) {
   );
 }
 
+const responseGoogle = (response) => {
+  console.log(response);
+};
+
 const theme = createTheme();
 
-function SignIn() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
-}
+// const darkTheme = createTheme({
+//   palette: {
+//     mode: 'dark',
+//   },
+// });
+
+// function SignIn() {
+//   const handleSubmit = (event) => {
+//     event.preventDefault();
+//     const data = new FormData(event.currentTarget);
+//     // eslint-disable-next-line no-console
+//     console.log({
+//       email: data.get('email'),
+//       password: data.get('password'),
+//     });
+//   };
+// }
 function login() {
+  const dispatch = useDispatch();
+  const {loggedIn, username} = useSelector((state) => state.users);
+
+  const [usernameText, setUsernameText] = useState('');
+  const [passwordText, setPasswordText] = useState('');
+
+  const navigate = useNavigate();
+  useEffect(()=>{
+    if(loggedIn) {
+      navigate('/home');
+    }
+  },[loggedIn]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault;
+    dispatch(login({
+      username: usernameText,
+      password: passwordText
+    }))
+      .then();
+  };
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -57,7 +91,9 @@ function login() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form"  noValidate sx={{ mt: 1 }}>
+          <Box component="form"  noValidate sx={{ mt: 1 }}
+            onSubmit={handleSubmit}
+          >
             <TextField
               margin="normal"
               required
@@ -67,6 +103,7 @@ function login() {
               name="Username"
               autoComplete="Username"
               autoFocus
+              onChange={e=>setUsernameText(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -77,11 +114,22 @@ function login() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={e=>setPasswordText(e.target.value)}
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
+            <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+              />
+
+              <GoogleLogin
+                clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+                buttonText="Sign in with Google"
+                onSuccess={responseGoogle}
+                onFailure={responseGoogle}
+                cookiePolicy={'single_host_origin'}
+              />
+            </Box>
             <Button
               type="submit"
               fullWidth
@@ -92,11 +140,9 @@ function login() {
             </Button>
             <Grid container justifyContent="center">
               <Grid item>
-                <Link href="#" variant="body2">
-                  <RouteLink to="/signup" style={{color: '#1976d2' }}>
-                    {'Don\'t have an account? Sign Up'}
-                  </RouteLink>
-                </Link>
+                <RouteLink to="/signup" style={{color: '#1976d2' }}>
+                  {'Don\'t have an account? Sign Up'}
+                </RouteLink>
               </Grid>
             </Grid>
           </Box>
