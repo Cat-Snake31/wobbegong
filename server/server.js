@@ -1,9 +1,12 @@
 const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
+
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -28,22 +31,22 @@ app.use('/recipes', recipeRouter);
 app.use('/user', userRouter);
 
 app.get('/', (req, res) => {
-    res.status(200).sendFile(path.resolve((__dirname, './index.html')));
-  });
+  res.status(200).sendFile(path.resolve((__dirname, './index.html')));
+});
 
 app.use(function (err, req, res, next) {
-    const defaultErr = {
-      log: 'Express error handler caught unknown middleware error',
-      status: 400,
-      message: { err: 'An error occurred' }, 
-    };
-    const errorObj = Object.assign(err, defaultErr);
-    console.error('errorObj property: ', errorObj.log);
-    return res.status(errorObj.status).send(JSON.stringify(errorObj.message));
+  const defaultErr = {
+    log: 'Express error handler caught unknown middleware error',
+    status: 400,
+    message: { err: 'An error occurred' }, 
+  };
+  const errorObj = Object.assign(err, defaultErr);
+  console.error('errorObj property: ', errorObj.log);
+  return res.status(errorObj.status).send(JSON.stringify(errorObj.message));
 }); 
 
 app.listen(PORT, () => {
-    console.log(`Server listening on port: ${PORT}...`);
-  });
+  console.log(`Server listening on port: ${PORT}...`);
+});
    
 module.exports = app;

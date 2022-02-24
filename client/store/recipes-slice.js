@@ -17,7 +17,9 @@ export const syncRecipes = createAsyncThunk(
       const response = await responseJSON.json();
       
       console.log('Here is your data: ', response);
-      return response.reverse();
+      if(Array.isArray(response)) {
+        return response.reverse();
+      } else return response;
     } catch (e) {
       console.log(e);
     }
@@ -112,7 +114,13 @@ const recipeReducer = createSlice({
   extraReducers: (builder) => {
     builder.addCase(syncRecipes.fulfilled, (state, action) => {
       console.log('In builder ');
+      console.log(action.payload)
+      if(typeof action.payload === 'string') {
+        window.location.href = 'http://localhost:8080/';
+      }
       // console.log(action.payload.data);
+      // window.location.href = 'http://www.google.com';
+
       state.recipes = action.payload;
     });
   },
