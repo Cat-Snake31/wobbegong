@@ -7,6 +7,7 @@ const recipeSchema = new Schema({
   name: {type: String, required: true},
   query: {type: String, required: true},
   data: {type: String, required: true},
+  username: {type: String, required: true}
 });
 
 // const RecipeModel = mongoose.model('recipe', recipeSchema);

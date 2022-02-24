@@ -10,8 +10,8 @@ const userSchema = new Schema({
   firstName: {type: String, required: true},
   username: {type: String, required: true},
   password: {type: String, required: true},
-  darkModePref: {type: String},
-  recipes : [{ type: Schema.Types.ObjectId, ref: 'recipe' }]
+  darkModePref: {type: String, default: 'light'},
+  // recipes : [{ type: Schema.Types.ObjectId, ref: 'recipe' }]
 });
 
 userSchema.pre('save', function(next) {

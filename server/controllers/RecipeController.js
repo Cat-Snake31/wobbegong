@@ -19,13 +19,14 @@ recipeController.createRecipe = async (req, res, next) => {
     const newRecipe = await Recipe.create({
       name: name,
       query: query,
-      data: JSON.stringify(response.data.foods)
+      data: JSON.stringify(response.data.foods),
+      username: res.locals.username
     });
     console.log('Created new recipe in database successfully');
     res.locals.newRecipe = newRecipe;
-    const recipeToUser = await User.findOneAndUpdate({username: 'testyguy'},
-      { $push: { recipes: newRecipe._id }}
-    );
+    // const recipeToUser = await User.findOneAndUpdate({username: res.locals.username},
+    //   { $push: { recipes: newRecipe._id }}
+    // );
     return next();
   } catch (err) {
     console.log(err);
@@ -38,8 +39,10 @@ recipeController.createRecipe = async (req, res, next) => {
 
 recipeController.getRecipes = async (req, res, next) => {
   try {
-    const recipes = await Recipe.find({});
+    const recipes = await Recipe.find({username: res.locals.username});
+    // user.recipes.forEach((curr)=> Recipe.findOne({_id: curr}))
     res.locals.recipes = recipes;
+    // console.log(res.locals.recipes);
     return next();
   } catch (err) {
     console.log(err);

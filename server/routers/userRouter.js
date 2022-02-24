@@ -30,16 +30,19 @@ router.post('/login', userController.verifyUser, sessionController.startSession,
   return res.status(200).json(user);
 });
 
-//router.put
-router.put('/', userController.updateUser, (req, res) => {
-  return res.status(200).json(res.locals.updatedUser);
-});
+// //router.put
+// router.put('/', userController.updateUser, (req, res) => {
+//   return res.status(200).json(res.locals.updatedUser);
+// });
 
-//router.delete
-router.delete('/', userController.deleteUser, (req, res) => {
-  return res.status(200).json(res.locals.deletedUser);
-});
+// //router.delete
+// router.delete('/', userController.deleteUser, (req, res) => {
+//   return res.status(200).json(res.locals.deletedUser);
+// });
 
+router.get('/logout', (req, res) => {
+  res.clearCookie('wobbeuser').redirect('/')
+});
 
 
 

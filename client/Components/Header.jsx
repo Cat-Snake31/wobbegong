@@ -48,12 +48,17 @@ const Header = () => {
           component="div"
           sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
         >
-          Wobbegong
+           Wobbegong<b><i>.NEXT</i></b>
         </Typography>
         <AddRecipe/>
         {/* <Switch onClick={colorMode.toggleColorMode}/> */}
         <Switch onClick={() => dispatch(changeTheme())}/>
-        <Button color="inherit">Logout</Button>
+        <Button color="inherit"
+          onClick={()=>{
+            fetch('/user/logout');
+            return window.location.assign('/');
+          }}
+        >Logout</Button>
       </Toolbar>
     </AppBar>
   );
