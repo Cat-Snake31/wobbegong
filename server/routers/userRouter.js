@@ -12,7 +12,14 @@ router.post('/signup', userController.createUser, (req, res) => {
 
 //router/login/post
 router.post('/login', userController.verifyUser, (req, res) => {
-  return res.redirect('/');
+  const { username, firstName } = res.locals.userData;
+  const user = {
+    loggedIn: false, 
+    username: username,
+    firstName: firstName,
+    darkModePref: 'light'
+  }
+  return res.status(200).json(user);
 });
 
 //router.put

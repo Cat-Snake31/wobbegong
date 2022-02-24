@@ -26,7 +26,6 @@ recipeController.createRecipe = async (req, res, next) => {
     const recipeToUser = await User.findOneAndUpdate({username: 'testyguy'},
       { $push: { recipes: newRecipe._id }}
     );
-    
     return next();
   } catch (err) {
     console.log(err);

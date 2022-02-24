@@ -23,7 +23,22 @@ userSchema.pre('save', function(next) {
 });
 
 userSchema.methods.comparePassword = function(plaintextPassword) {
+  // console.log('this.password: ', this.password)
+  // console.log('plain password: ', plaintextPassword)
+  // let result = bcrypt.compare(plaintextPassword, this.password);
+  // console.log(result);
   return bcrypt.compare(plaintextPassword, this.password);
+  // bcrypt.compare(plaintextPassword, this.password, (err, res) => {
+  //   if(err) {
+  //     console.log('not going through ', err);
+  //   }
+  //   if (res) {
+  //     console.log('comparison result ', res);
+  //     return res;
+  //   } else {
+  //     return 0;
+  //   }
+  // });
 };
 
 module.exports = mongoose.model('User', userSchema);
