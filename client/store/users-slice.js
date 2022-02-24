@@ -8,15 +8,21 @@ const initialUserState = {
   darkModePref: 'light',
 };
 
-export const getUser = createAsyncThunk(
+export const login = createAsyncThunk(
   'users/getUserStatus',
-  async () => {
+  async (body) => {
     try {
-      console.log('in the getUser Thunk function');
-      const responseJSON = await fetch('/getUser');
+      console.log('in the login Thunk function');
+      const responseJSON = await fetch('/login',{
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      });
       const response = await responseJSON.json();
-      // console.log('Here is your data: ', response);
-      return;
+      console.log('login data: ', response);
+      return response;
     } catch (e) {
       console.log(e);
     }
@@ -31,6 +37,15 @@ const userSlice = createSlice({
       state.darkModePref = (state.darkModePref === 'light') 
         ? 'dark' 
         : 'light';
+    },
+    extraReducers: (builder) => {
+      builder.addCase(login.fulfilled, (state, action) => {
+        console.log('In builder login');
+        // console.log(action.payload.data);
+        if(action.payload.loggedIn) {
+          state = action.payload;
+        }
+      });
     },
   },
 });
