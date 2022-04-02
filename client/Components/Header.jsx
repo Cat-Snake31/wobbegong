@@ -48,7 +48,7 @@ const Header = () => {
           component="div"
           sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
         >
-           Wobbegong<b><i>.NEXT</i></b>
+           Nutrition<b>.IX</b>
         </Typography>
         <AddRecipe/>
         {/* <Switch onClick={colorMode.toggleColorMode}/> */}
